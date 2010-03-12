@@ -1,0 +1,9 @@
+from distutils.core import setup
+
+setup(name='abouttag',
+      version='0.1',
+      description='Normalized FluidDB about tags',
+      author='Nicholas J. Radcliffe',
+      author_email='njr@StochasticSolutions.com',
+      packages=['abouttag'],
+     )

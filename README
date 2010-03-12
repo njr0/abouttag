@@ -1,0 +1,15 @@
+This package provides functions for generating about tags for
+FluidDB following various conventions.
+
+FluidDB is a hosted, online database based on the notion of tagging.
+For more information on FluidDB, visit http://fluiddb.fluidinfo.com.
+
+For more information on the ideas that motivated this module,
+see posts at http://abouttag.blogspot.com.   A good place to
+start is
+
+http://abouttag.blogspot.com/2010/03/about-tag-conventions-in-fluiddb.html
+
+
+Nicholas J. Radcliffe
+12th March 2010
