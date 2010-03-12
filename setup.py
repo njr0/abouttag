@@ -6,4 +6,5 @@ setup(name='abouttag',
       author='Nicholas J. Radcliffe',
       author_email='njr@StochasticSolutions.com',
       packages=['abouttag'],
+      url="http://github.com/njr0/abouttag/"
      )
