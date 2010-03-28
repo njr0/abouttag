@@ -15,6 +15,7 @@ from abouttag.uri import *
 from abouttag.database import *
 from abouttag.objects import *
 from abouttag.location import *
+from abouttag.books import *
 
 unittest.main()
 
