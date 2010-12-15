@@ -14,7 +14,7 @@ from abouttag.uri import URI
 from abouttag.database import Database
 from abouttag.objects import planet, element
 from abouttag.location import GEOnet
-from abouttag.books import book
+from abouttag.books import book, author
 
 
 
@@ -54,3 +54,9 @@ print book(u'The Feynman Lectures on Physics',
 
 print book(u'The Oxford English Dictionary: second edition, volume 3',
            u'John Simpson', u'Edmund Weiner')
+
+print '\nAUTHORS:'
+
+print author(u'Gabriel García Márquez', 1927, 3, 6)
+print author(u"Douglas R. Hofstadter", 1945, 2, 15)
+
