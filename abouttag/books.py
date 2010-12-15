@@ -3,7 +3,7 @@
 """
     abouttag.books
 
-    Standard about tags for books
+    Standard about tags for books and authors.
 
     Copyright 2010 AUTHORS (see AUTHORS file)
     License: MIT, see LICENSE for more information
@@ -50,6 +50,39 @@ def book(title, *authors, **kwargs):
 
     return normalize_book(title, *authors, **kwargs)
 
+def normalize_author(author, year, month, day, **kwargs):
+    doNormalize = kwargs['normalize'] if 'normalize' in kwargs else True
+    if year:
+        if month:
+            if day:
+                date = u' (%04d-%02d-%02d)' % (year, month, day)
+            else:
+                date = u' (%04d-%02d)' % (year, month)
+        else:
+            date = u' (%04d)' % (year)
+    else:
+        date = u''
+    if doNormalize:
+        author = normalize(replacedots(author))
+    return u'author:%s%s' % (author, date)
+
+def author(name, year=None, month=None, day=None, **kwargs):
+    """Usage:
+        from abouttag.books import author
+
+	print book(u'Douglas R. Hofstader', 1945, 2, 15)
+	author:douglas r hofstader (1945-02-15)
+
+	print book(u'Douglas R. Hofstader')
+	author:douglas r hofstader
+
+    """
+    if 'convention' in kwargs:
+        assert kwargs['convention'].lower() == u'author-1'
+
+    return normalize_author(name, year, month, day, **kwargs)
+
+
 class TestBooks(about.AboutTestCase):
     def testFluidDBBadConvention(self):
         self.assertRaises(AssertionError, book, u'hello', convention='unknown')
@@ -74,9 +107,28 @@ class TestBooks(about.AboutTestCase):
         )
         for (input, output) in expected:
             title, author = input[0], input[1:]
-            self.assertEqual ((input, output),
-                              (input, book(title, *author)))
+            self.assertEqual((input, output),
+                             (input, book(title, *author)))
 
+
+    def testNormalizeAuthor(self):
+        expected = (
+            ((u"Douglas R. Hofstadter", 1945, 2, 15),
+             u'author:douglas r hofstadter (1945-02-15)'),
+            ((u"Douglas R. Hofstadter", 1945, 2, None),
+             u'author:douglas r hofstadter (1945-02)'),
+            ((u"Douglas R. Hofstadter", 1945, None, None),
+             u'author:douglas r hofstadter (1945)'),
+            ((u"Douglas R. Hofstadter", None, None, None),
+             u'author:douglas r hofstadter'),
+            ((u'Gabriel García Márquez', 1927, 3, 6),
+             u'author:gabriel garcia marquez (1927-03-06)'),
+        )
+        for (input, output) in expected:
+            [name, y, m, d] = input
+            self.assertEqual((input, output),
+                             (input, author(name, y, m, d)))
+        
 
 
 if __name__ == '__main__':
