@@ -70,10 +70,10 @@ def author(name, year=None, month=None, day=None, **kwargs):
     """Usage:
         from abouttag.books import author
 
-	print book(u'Douglas R. Hofstader', 1945, 2, 15)
+	print author(u'Douglas R. Hofstader', 1945, 2, 15)
 	author:douglas r hofstader (1945-02-15)
 
-	print book(u'Douglas R. Hofstader')
+	print author(u'Douglas R. Hofstader')
 	author:douglas r hofstader
 
     """
