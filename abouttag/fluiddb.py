@@ -9,8 +9,8 @@
     License: MIT, see LICENSE for more information
 """
 
-import unittest
 from abouttag import about
+
 
 class FluidDB:
     """Usage:
@@ -21,18 +21,18 @@ class FluidDB:
         ns = db.namespace(u'njr/ideas')
         tag = db.tag(u'njr/rating')
     """
-    def __init__ (self, convention=u'fluiddb-1'):
+    def __init__(self, convention=u'fluiddb-1'):
         assert convention.lower() in (u'fluiddb-1',)
         self.convention = convention.lower()
 
     def normalize(self, path, normalize=True):
         if normalize:
             if path.startswith(u'/'):
-               path = path[1:]
+                path = path[1:]
             if path.endswith(u'/'):
-               path = path[:-1]
+                path = path[:-1]
             path = path.strip()
-        return path        
+        return path
 
     def user(self, username, normalize=True):
         # There is no normalization to perform on a username
@@ -79,4 +79,3 @@ class TestFluidDB(about.AboutTestCase):
         )
         db = FluidDB()
         self.getExpectedResults(expected, db.tag)
-

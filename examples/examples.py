@@ -17,7 +17,6 @@ from abouttag.location import GEOnet
 from abouttag.books import book, author
 
 
-
 db = FluidDB()
 print '\nFluidDB OBJECTS:'
 print db.user(u'njr')
@@ -49,7 +48,7 @@ print book(u"Gödel, Escher, Bach: An Eternal Golden Braid",
 
 
 print book(u'The Feynman Lectures on Physics',
-           u'Richard P. Feynman', u'Robert B. Leighton', 
+           u'Richard P. Feynman', u'Robert B. Leighton',
            u'Matthew Sands')
 
 print book(u'The Oxford English Dictionary: second edition, volume 3',
@@ -59,4 +58,3 @@ print '\nAUTHORS:'
 
 print author(u'Gabriel García Márquez', 1927, 3, 6)
 print author(u"Douglas R. Hofstadter", 1945, 2, 15)
-

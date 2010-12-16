@@ -12,6 +12,7 @@
 
 import unittest
 
+
 def generalentity(name, convention, conventions, normalize=True,
            prefix=u'', suffix=u'', case='title', doStrip=True):
     assert convention in conventions
@@ -26,8 +27,10 @@ def generalentity(name, convention, conventions, normalize=True,
             name = name.strip()
     return u'%s%s%s' % (prefix, name, suffix)
 
+
 def simple(entity):
     conventions = ('%s-1' % entity,)
+
     def f(name, convention='%s-1' % entity, normalize=True):
         return generalentity(name, convention, conventions,
                              normalize=normalize, prefix=u'%s:' % entity)
@@ -35,7 +38,7 @@ def simple(entity):
 
 
 class AboutTestCase(unittest.TestCase):
-    def getExpectedResults (self, expected, f):
+    def getExpectedResults(self, expected, f):
         for (input, output) in expected:
             self.assertEqual((input, f(input)), (input, output))
         self.assertEqual(f(u'/%s' % expected[0][0]) == output, False)
@@ -49,4 +52,3 @@ class AboutTestCase(unittest.TestCase):
     def vectorTest(self, expected, f):
         for (args, normalized) in expected:
             self.assertEqual((args, f(*args)), (args, normalized))
-                             

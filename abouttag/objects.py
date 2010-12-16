@@ -11,11 +11,11 @@
     Copyright 2010 AUTHORS (see AUTHORS file)
     License: MIT, see LICENSE for more information
 """
-import unittest
 from abouttag import about
 
 planet = about.simple(u'planet')
 element = about.simple(u'element')
+
 
 class TestObjects(about.AboutTestCase):
     # Just tests planet, becaues if planet's OK there's really
@@ -30,4 +30,3 @@ class TestObjects(about.AboutTestCase):
         # No normalization:
         self.assertEqual(planet(u' saturn ', normalize=False),
                          u'planet: saturn ')
-

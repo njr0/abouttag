@@ -9,8 +9,8 @@
     License: MIT, see LICENSE for more information
 """
 
-import unittest, re
 from abouttag import about
+
 
 def GEOnet(fli, fni, normalize=False, convention=u'geonet-1'):
     """Usage:
@@ -32,6 +32,3 @@ class TestGEOnet(about.AboutTestCase):
             ((-99999, -77777), u'GEOnet-99999_-77777')
         )
         self.vectorTest(expected, GEOnet)
-
-
-

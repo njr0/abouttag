@@ -9,8 +9,8 @@
     License: MIT, see LICENSE for more information
 """
 
-import unittest
 from abouttag import about
+
 
 class Database:
     """Usage:
@@ -20,7 +20,7 @@ class Database:
         table = db.table(u'elements')
         field = db.field(u'Name', u'elements')
     """
-    def __init__ (self, convention=u'database-1'):
+    def __init__(self, convention=u'database-1'):
         assert convention.lower() in (u'database-1',)
         self.convention = convention.lower()
 
@@ -32,7 +32,7 @@ class Database:
 
     def field(self, fieldname, tablename, normalize=True):
         return u'field:%s in table:%s' % (self.normalize(fieldname),
-                                          self.normalize( tablename))
+                                          self.normalize(tablename))
 
 
 class TestDatabase(about.AboutTestCase):
@@ -47,4 +47,3 @@ class TestDatabase(about.AboutTestCase):
         db = Database()
         self.assertEqual(db.field(u'Name', u'elements'),
                          u'field:Name in table:elements')
-

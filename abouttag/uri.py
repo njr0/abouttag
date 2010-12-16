@@ -9,8 +9,8 @@
     License: MIT, see LICENSE for more information
 """
 
-import unittest, re
 from abouttag import about
+
 
 def normalize_uri(uri, normalize=True):
     if normalize:
@@ -28,6 +28,7 @@ def normalize_uri(uri, normalize=True):
             uri = u'%s://%s' % (prefix, domain)
         uri = uri.strip()
     return uri
+
 
 def URI(uri, normalize=True, convention=u'uri-1'):
     """Usage:
@@ -56,6 +57,3 @@ class TestURI(about.AboutTestCase):
                 'http://test.com/one/two/?referrer=http://a.b/c')
         )
         self.normalizeTest(expected, URI)
-
-
-

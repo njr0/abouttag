@@ -9,6 +9,7 @@
     License: MIT, see LICENSE for more information
 """
 
+import unittest
 from about import *
 from abouttag.fluiddb import *
 from abouttag.uri import *
