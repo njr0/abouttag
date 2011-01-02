@@ -15,6 +15,7 @@ from abouttag import about
 
 planet = about.simple(u'planet')
 element = about.simple(u'element')
+twitteruser = about.simple(u'twitter.com:uid')
 
 
 class TestObjects(about.AboutTestCase):
@@ -30,3 +31,20 @@ class TestObjects(about.AboutTestCase):
         # No normalization:
         self.assertEqual(planet(u' saturn ', normalize=False),
                          u'planet: saturn ')
+
+    def testElement(self):
+        self.assertEqual(element(u'Hydrogen'), u'element:Hydrogen')
+        self.assertEqual(element(u' copper '), u'element:Copper')
+
+        # No normalization:
+        self.assertEqual(element(u' copper ', normalize=False),
+                         u'element: copper ')
+
+    def testTwitterUser(self):
+        self.assertEqual(twitteruser(u'17895882'), u'twitter.com:uid:17895882')
+        self.assertEqual(twitteruser(u' 17895882 '),
+                         u'twitter.com:uid:17895882')
+
+        # No normalization:
+        self.assertEqual(twitteruser(u' 42983 ', normalize=False),
+                         u'twitter.com:uid: 42983 ')
