@@ -26,18 +26,9 @@ def book_author_about(author):
 
 
 def normalize_book(title, *authors, **kwargs):
-    print authors, type(authors)
     doNormalize = kwargs['normalize'] if 'normalize' in kwargs else True
     if doNormalize:
-        print 'LLL'
-        print 'a:', [(a, type(a)) for a in authors]
-        print 'b:',  [(book_author_about(a), type(book_author_about(a)))
-                         for a in authors]
-        print 'n:', [(normalize(book_author_about(a)),
-                        type(normalize(book_author_about(a)))) for a in authors]
         authors = u'; '.join(normalize(book_author_about(a)) for a in authors)
-        print 'KKK'
-        print authors, type(authors)
         return u'book:%s (%s)' % (normalize(move_article(title)), authors)
     else:
         authors = u'; '.join(a for a in authors)
@@ -67,15 +58,7 @@ def book(title, *authors, **kwargs):
     if 'convention' in kwargs:
         assert kwargs['convention'].lower() == u'book-1'
 
-    return normalize_book2(title, *authors, **kwargs)
-
-def normalize_book2(title, authors):
-    print title, type(title)
-    print u'<<%s>>' % authors, type(authors)
-    r = normalize_book(title, authors)
-    print r, type(r)
-    print
-    return r
+    return normalize_book(title, *authors, **kwargs)
 
 
 def is_all_upper(s):
