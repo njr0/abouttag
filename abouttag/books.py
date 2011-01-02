@@ -17,18 +17,27 @@ from abouttag.nacolike import normalize
 DOT_LETTER_RE = re.compile(u'^.*\.[A-Z].*$')
 LC_ARTICLES = (u'the', u'a')
 
+def replacedots(author):
+    return author.replace(u'.', u' ')
+
+
 def book_author_about(author):
     return replacedots(move_surname_to_end(author))
 
 
-def replacedots(author):
-    return author.replace('.', ' ')
-
-
 def normalize_book(title, *authors, **kwargs):
+    print authors, type(authors)
     doNormalize = kwargs['normalize'] if 'normalize' in kwargs else True
     if doNormalize:
+        print 'LLL'
+        print 'a:', [(a, type(a)) for a in authors]
+        print 'b:',  [(book_author_about(a), type(book_author_about(a)))
+                         for a in authors]
+        print 'n:', [(normalize(book_author_about(a)),
+                        type(normalize(book_author_about(a)))) for a in authors]
         authors = u'; '.join(normalize(book_author_about(a)) for a in authors)
+        print 'KKK'
+        print authors, type(authors)
         return u'book:%s (%s)' % (normalize(move_article(title)), authors)
     else:
         authors = u'; '.join(a for a in authors)
@@ -58,7 +67,15 @@ def book(title, *authors, **kwargs):
     if 'convention' in kwargs:
         assert kwargs['convention'].lower() == u'book-1'
 
-    return normalize_book(title, *authors, **kwargs)
+    return normalize_book2(title, *authors, **kwargs)
+
+def normalize_book2(title, authors):
+    print title, type(title)
+    print u'<<%s>>' % authors, type(authors)
+    r = normalize_book(title, authors)
+    print r, type(r)
+    print
+    return r
 
 
 def is_all_upper(s):
@@ -92,13 +109,14 @@ def move_article(title):
         
     """
     L = title.lower()
+    if not title:
+        return u''
     for a in LC_ARTICLES:
         if L.endswith(u', ' + a):
             return u'%s %s' % (title[-len(a):], title[:-(len(a) + 2)])
         elif L.endswith(u',' + a):
             return u'%s %s' % (title[-len(a):], title[:-(len(a) + 1)])
     return title
-
 
 def move_surname_to_end(author):
     """Given a name such as "Salinger, J.D.", this functions transforms
@@ -121,7 +139,7 @@ def move_surname_to_end(author):
         
     """
     if not author:
-        return author
+        return u''
 
     parts = [s.strip() for s in author.split(u',')]
     if len(parts) >= 2:
@@ -134,12 +152,12 @@ def move_surname_to_end(author):
                                 # don't try to split initials.
 
     if len(parts[0]) == 1:       # First part is undotted initial
-        return u' '.join([dot_initial(p) for p in parts[:-1]] + parts[-1])
+        return u' '.join([dot_initial(p) for p in parts[:-1]] + [parts[-1]])
     elif is_all_upper(parts[0]):    # First part looks like string of undotted
-                                # initials
+                                    # initials
         return u' '.join([u'%s.' % p for p in parts[0]] + parts[1:])
     elif re.match(DOT_LETTER_RE, parts[0]):
-        parts[0] =  '. '.join(s.strip() for s in parts[0].split(u'.')).strip()
+        parts[0] =  u'. '.join(s.strip() for s in parts[0].split(u'.')).strip()
         return u' '.join(parts)
     else:
         return author

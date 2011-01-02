@@ -49,7 +49,7 @@ TRANSLATE = {
 
 def remove_accents(u):
     return ''.join(c for c in unicodedata.normalize('NFD', u)
-                            if unicodedata.category(c) != 'Mn')
+                            if unicodedata.category(c) != 'Mn') if u else u
 
 
 def normalize_part(u):
