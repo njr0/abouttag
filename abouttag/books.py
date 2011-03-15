@@ -25,14 +25,21 @@ def book_author_about(author):
     return replacedots(move_surname_to_end(author))
 
 
-def normalize_book(title, *authors, **kwargs):
-    doNormalize = kwargs['normalize'] if 'normalize' in kwargs else True
-    if doNormalize:
-        authors = u'; '.join(normalize(book_author_about(a)) for a in authors)
-        return u'book:%s (%s)' % (normalize(move_article(title)), authors)
-    else:
-        authors = u'; '.join(a for a in authors)
-        return u'book:%s (%s)' % (title, authors)
+def normalize_work(prefix):
+    def f(title, *authors, **kwargs):
+        doNormalize = kwargs['normalize'] if 'normalize' in kwargs else True
+        if doNormalize:
+            authors = u'; '.join(normalize(book_author_about(a))
+                                  for a in authors if a)
+            return u'%s:%s (%s)' % (prefix, normalize(move_article(title)),
+                                    authors)
+        else:
+            authors = u'; '.join(a for a in authors if a)
+            return u'%s:%s (%s)' % (prefix, title, authors)
+    return f
+
+
+normalize_book = normalize_work(u'book')
 
 
 def book(title, *authors, **kwargs):
@@ -193,6 +200,12 @@ class TestBooks(about.AboutTestCase):
 
              ((u'The Feynman Lectures on Physics',
                u'Richard P. Feynman', u'Robert B. Leighton',
+               u'Matthew Sands'),
+              u'book:the feynman lectures on physics '
+                  u'(richard p feynman; robert b leighton; matthew sands)'),
+
+             ((u'The Feynman Lectures on Physics',
+               u'Richard P. Feynman', u'', u'Robert B. Leighton', None,
                u'Matthew Sands'),
               u'book:the feynman lectures on physics '
                   u'(richard p feynman; robert b leighton; matthew sands)'),
