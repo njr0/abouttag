@@ -25,13 +25,16 @@ def book_author_about(author):
     return replacedots(move_surname_to_end(author))
 
 
-def normalize_work(prefix):
+def normalize_work(prefix, preserveAlpha=False):
     def f(title, *authors, **kwargs):
         doNormalize = kwargs['normalize'] if 'normalize' in kwargs else True
         if doNormalize:
-            authors = u'; '.join(normalize(book_author_about(a))
+            authors = u'; '.join(normalize(book_author_about(a),
+                                           preserveAlpha=preserveAlpha)
                                   for a in authors if a)
-            return u'%s:%s (%s)' % (prefix, normalize(move_article(title)),
+            return u'%s:%s (%s)' % (prefix,
+                                    normalize(move_article(title),
+                                              preserveAlpha=preserveAlpha),
                                     authors)
         else:
             authors = u'; '.join(a for a in authors if a)
@@ -40,6 +43,7 @@ def normalize_work(prefix):
 
 
 normalize_book = normalize_work(u'book')
+normalize_ubook = normalize_work(u'book', preserveAlpha=True)
 
 
 def book(title, *authors, **kwargs):
@@ -68,6 +72,34 @@ def book(title, *authors, **kwargs):
     return normalize_book(title, *authors, **kwargs)
 
 
+def ubook(title, *authors, **kwargs):
+    """This uses the book-u convention which is the same as book-1
+except that all letters
+Usage:
+        from abouttag.books import ubook
+
+        print ubook(u"Gödel, Escher, Bach: An Eternal Golden Braid",
+                    u'Douglas R. Hofstader')
+        book:gödel escher bach an eternal golden braid (douglas r hofstader)
+
+
+        print ubook(u'The Feynman Lectures on Physics',
+                    u'Richard P. Feynman', u'Robert B. Leighton',
+                    u'Matthew Sands')
+        book:the feynman lectures on physics (richard p feynman; robert b leighton; matthew sands)
+
+
+        print ubook(u'The Oxford English Dictionary: second edition, volume 3',
+                   u'John Simpson', u'Edmund Weiner')
+
+        book:the oxford english dictionary second edition volume 3 (john simpson; edmund weiner)
+    """
+    if 'convention' in kwargs:
+        assert kwargs['convention'].lower() == u'book-u'
+
+    return normalize_ubook(title, *authors, **kwargs)
+
+
 def is_all_upper(s):
     """Returns True if the whole of the string s is upper case."""
     return sum(c.isupper() for c in s) == len(s)
@@ -78,6 +110,7 @@ def dot_initial(s):
         return u'%s.' % s
     else:
         return s
+
 
 def move_article(title):
     """Moves trailing article after comma to the start of a title.
@@ -220,6 +253,48 @@ class TestBooks(about.AboutTestCase):
             self.assertEqual((input, output),
                              (input, book(title, *author)))
 
+    def testFluidDBNormalizeU(self):
+        expected = (
+            ((u"Gödel, Escher, Bach: An Eternal Golden Braid",
+              u'Douglas R. Hofstader'),
+             u'book:gödel escher bach an eternal golden braid '
+                 u'(douglas r hofstader)'),
+
+             ((u'The Feynman Lectures on Physics',
+               u'Richard P. Feynman', u'Robert B. Leighton',
+               u'Matthew Sands'),
+              u'book:the feynman lectures on physics '
+                  u'(richard p feynman; robert b leighton; matthew sands)'),
+
+             ((u'The Feynman Lectures on Physics',
+               u'Richard P. Feynman', u'', u'Robert B. Leighton', None,
+               u'Matthew Sands'),
+              u'book:the feynman lectures on physics '
+                  u'(richard p feynman; robert b leighton; matthew sands)'),
+
+             ((u'The Oxford English Dictionary: second edition, volume 3',
+               u'John Simpson', u'Edmund Weiner'),
+              u'book:the oxford english dictionary second edition volume 3 '
+                  '(john simpson; edmund weiner)'),
+
+            ((u'The One Hundred Years of Solitude',
+              u'Gabriel García Márquez'),
+             u'book:the one hundred years of solitude '
+             u'(gabriel garcía márquez)'),
+
+            ((u"L'Histoire de Gil Blas de Santillane",
+              u'Alain-René Lesage'), 
+             u'book:lhistoire de gil blas de santillane (alain rené lesage)'),
+
+           ((u'Cønsümàte Craziness',
+             u'Imprøbable', u'CrÆzy', u'Øutlandisch'),
+            u'book:cønsümàte craziness (imprøbable; cræzy; øutlandisch)'),
+        )
+        for (input, output) in expected:
+            title, author = input[0], input[1:]
+            self.assertEqual((input, output),
+                             (input, ubook(title, *author)))
+
     def testNormalizeAuthor(self):
         expected = (
             ((u"Douglas R. Hofstadter", 1945, 2, 15),
@@ -290,8 +365,6 @@ class TestBooks(about.AboutTestCase):
         for (input, output) in IO:
             self.assertEqual((input, move_article(input)),
                              (input, output))
-
-
 
 
 if __name__ == '__main__':

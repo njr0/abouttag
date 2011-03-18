@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+        # -*- coding: utf-8 -*-
 
 """
     abouttag.nacolike
@@ -46,23 +46,38 @@ TRANSLATE = {
         u"'": u'',    # apostrophe
 }
 
+U_TRANSLATE = {
+        u'♭': u'b',
+        u'♯': u'#',  # careful: sharp not hash on left!
+        u'–': u'-',   # en-dash
+        u'—': u'-',   # em-dash
+        u"'": u'',    # apostrophe
+}
+
 
 def remove_accents(u):
     return ''.join(c for c in unicodedata.normalize('NFD', u)
                             if unicodedata.category(c) != 'Mn') if u else u
 
 
-def normalize_part(u):
-    u = ''.join(TRANSLATE[s] if s in TRANSLATE else s for s in u)
-    u = remove_accents(u)
+def normalize_part(u, preserveAlpha=False):
+    if preserveAlpha:
+        u = ''.join(U_TRANSLATE[s] if s in U_TRANSLATE else s for s in u)
+    else:
+        u = ''.join(TRANSLATE[s] if s in TRANSLATE else s for s in u)
+        u = remove_accents(u)
     u = re.sub(TO_SPACES_RE, u' ', u)
     u = re.sub(DELETIONS_RE, u'', u)
-    u = ''.join(c if 0x1F < ord(c) < 0x7E else u' ' for c in u)
+    if preserveAlpha:
+        u = ''.join(c if (0x1F < ord(c) < 0x7E or c.isalpha())
+                      else u' ' for c in u)
+    else:
+        u = ''.join(c if 0x1F < ord(c) < 0x7E else u' ' for c in u)
     u = re.sub(MULTISPACE_RE, u' ', u)
     return u
 
 
-def normalize(u, preserveFirstComma=False):
+def normalize(u, preserveFirstComma=False, preserveAlpha=False):
     """Normalize a string using NACO normalization rules.
        Input is (must be) unicode string.
 
@@ -73,7 +88,8 @@ def normalize(u, preserveFirstComma=False):
     """
     if preserveFirstComma and u',' in u:
         cPos = u.find(u',')
-        U = u'%s,%s' % (normalize_part(u[:cPos]), normalize_part(u[:cPos]))
+        U = u'%s,%s' % (normalize_part(u[:cPos], preserveAlpha),
+                        normalize_part(u[:cPos]), preserveAlpha)
     else:
-        U = normalize_part(u)
+        U = normalize_part(u, preserveAlpha)
     return U.lower().strip()
