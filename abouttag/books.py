@@ -21,15 +21,18 @@ def replacedots(author):
     return author.replace(u'.', u' ')
 
 
-def book_author_about(author):
-    return replacedots(move_surname_to_end(author))
+def book_author_about(author, move_surname=True):
+    if move_surname:
+        return replacedots(move_surname_to_end(author))
+    else:
+        return replacedots(author)
 
 
-def normalize_work(prefix, preserveAlpha=False):
+def normalize_work(prefix, preserveAlpha=False, move_surname=True):
     def f(title, *authors, **kwargs):
         doNormalize = kwargs['normalize'] if 'normalize' in kwargs else True
         if doNormalize:
-            authors = u'; '.join(normalize(book_author_about(a),
+            authors = u'; '.join(normalize(book_author_about(a, move_surname),
                                            preserveAlpha=preserveAlpha)
                                   for a in authors if a)
             return u'%s:%s (%s)' % (prefix,
@@ -227,9 +230,9 @@ class TestBooks(about.AboutTestCase):
     def testFluidDBNormalize(self):
         expected = (
             ((u"Gödel, Escher, Bach: An Eternal Golden Braid",
-              u'Douglas R. Hofstader'),
+              u'Douglas R. Hofstadter'),
              u'book:godel escher bach an eternal golden braid '
-                 u'(douglas r hofstader)'),
+                 u'(douglas r hofstadter)'),
 
              ((u'The Feynman Lectures on Physics',
                u'Richard P. Feynman', u'Robert B. Leighton',
