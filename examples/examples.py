@@ -15,6 +15,7 @@ from abouttag.database import Database
 from abouttag.objects import planet, element
 from abouttag.location import GEOnet
 from abouttag.books import book, ubook, author
+from abouttag.music import album, track, artist, isrc_recording
 
 
 db = FluidDB()
@@ -69,3 +70,11 @@ print '\nAUTHORS:'
 
 print author(u'Gabriel García Márquez', 1927, 3, 6)
 print author(u"Douglas R. Hofstadter", 1945, 2, 15)
+
+print '\nMUSIC (album-u, track-u, artist-u and isrc-1 conventions):\n'
+print track(u'Bamboulé', u'Bensusan and Malherbe')
+print album(u"Solilaï", u'Pierre Bensusan')
+print artist(u"Crosby, Stills, Nash & Young")
+print isrc_recording(u'US-PR3-73-00012')
+
+print
