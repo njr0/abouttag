@@ -10,7 +10,6 @@
 """
 
 import unittest
-import re
 from abouttag import about
 from abouttag.nacolike import normalize
 from abouttag.books import normalize_work
@@ -26,15 +25,15 @@ def track(title, artist, **kwargs):
         from abouttag.music import track
 
         print track(u"Solilaï", u'Pierre Bensusan')
-        track:solilaï (pierre bensusan)
-
 
         print track(u'Bamboulé', u'Bensusan and Malherbe')
+
+        print track(u'''Archie Campbell/Marjorie Campbell/Miss Lyall's '''
+                    u'''Strathspey/Miss Lyall's Reel/The St Kilda Wedding''',
+                    u'The Cast')
+
+        track:solilaï (pierre bensusan)
         track:bamboulé (bensusan and malherbe)
-
-        print track(u'Archie Campbell/Marjorie Campbell/Miss Lyall's Strathspey/Miss Lyall's Reel/The St Kilda Wedding',
-                   u'The Cast')
-
         track:archie campbell marjorie campbell miss lyalls strathspey miss lyalls reel the st kilda wedding (the cast)
     """
     if 'convention' in kwargs:
@@ -54,8 +53,9 @@ def album(title, artist, **kwargs):
         print album(u'Bamboulé', u'Bensusan and Malherbe')
         album:bamboulé (bensusan and malherbe)
 
-        print album(u'Archie Campbell/Marjorie Campbell/Miss Lyall's Strathspey/Miss Lyall's Reel/The St Kilda Wedding',
-                   u'The Cast')
+        print album(u'''Archie Campbell/Marjorie Campbell/Miss Lyall's '''
+                    u'''Strathspey/Miss Lyall's Reel/The St Kilda Wedding',
+                    u'The Cast')
 
         album:archie campbell marjorie campbell miss lyalls strathspey miss lyalls reel the st kilda wedding (the cast)
     """
@@ -125,6 +125,8 @@ class TestMusic(about.AboutTestCase):
         expected = (
             ((u"Solilaï", u'Pierre Bensusan'),
               u'album:solilaï (pierre bensusan)'),
+            ((u"Déjà Vu", u'Crosby, Stills, Nash & Young'),
+              u'album:déjà vu (crosby stills nash & young)'),
             ((u"Down by the River", u'Crosby, Stills, Nash  &  Young'),
               u'album:down by the river (crosby stills nash & young)'),
             ((u'Bamboulé', u'Bensusan and Malherbe'),
