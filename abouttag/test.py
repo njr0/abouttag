@@ -18,6 +18,7 @@ from abouttag.objects import *
 from abouttag.location import *
 from abouttag.books import *
 from abouttag.music import *
+from abouttag.film import *
 
 unittest.main()
 

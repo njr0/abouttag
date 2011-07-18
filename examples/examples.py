@@ -16,6 +16,7 @@ from abouttag.objects import planet, element
 from abouttag.location import GEOnet
 from abouttag.books import book, ubook, author
 from abouttag.music import album, track, artist, isrc_recording
+from abouttag.film import film, movie
 
 
 db = FluidDB()
@@ -76,5 +77,9 @@ print track(u'Bamboulé', u'Bensusan and Malherbe')
 print album(u"Solilaï", u'Pierre Bensusan')
 print artist(u"Crosby, Stills, Nash & Young")
 print isrc_recording(u'US-PR3-73-00012')
+
+print '\nFILM (film-u convention):\n'
+print film(u"Citizen Kane", u'1941')
+print movie(u"L'Âge d'Or", u'1930')
 
 print
