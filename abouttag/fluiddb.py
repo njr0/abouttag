@@ -25,7 +25,7 @@ class FluidDB:
         assert convention.lower() in (u'fluiddb-1',)
         self.convention = convention.lower()
 
-    def normalize(self, path, normalize=True):
+    def normalize(self, path, normalize=True, convention=u'fluiddb-1'):
         if normalize:
             if path.startswith(u'/'):
                 path = path[1:]

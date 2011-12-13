@@ -10,9 +10,10 @@
 """
 
 from abouttag import about
+import urlnorm
 
 
-def normalize_uri(uri, normalize=True):
+def normalize_uri_1(uri, normalize=True):
     if normalize:
         if not u'://' in uri:
             uri = u'http://%s' % uri
@@ -30,21 +31,32 @@ def normalize_uri(uri, normalize=True):
     return uri
 
 
-def URI(uri, normalize=True, convention=u'uri-1'):
+def normalize_uri(uri, normalize=True):
+    if normalize:
+        uri = urlnorm.norm(uri)
+    return uri
+
+
+def URI(uri, normalize=True, convention=u'uri-2'):
     """Usage:
         from abouttag.uri import URI
 
         normalURL = URI(u'FluidDB.fluidinfo.com')
     """
-    assert convention.lower() == u'uri-1'
-    return normalize_uri(uri, normalize)
+    assert convention.lower() in (u'uri-1', u'uri-2')
+    if convention == u'uri-1':
+        return normalize_uri_1(uri, normalize)
+    else:
+        if normalize and not u'://' in uri:
+            uri = u'http://' + uri
+        return normalize_uri(uri, normalize)
 
 
 class TestURI(about.AboutTestCase):
     def testFluidDBBadConvention(self):
         self.assertRaises(AssertionError, URI, u'hello', convention='unknown')
 
-    def testFluidDBNormalize(self):
+    def testFluidDBNormalize1(self):
         expected = (
             ('FluidDB.fluidinfo.com', 'http://fluiddb.fluidinfo.com'),
             ('FluidDB.fluidinfo.com/one/two/',
@@ -53,6 +65,20 @@ class TestURI(about.AboutTestCase):
                 'https://fluiddb.fluidinfo.com/one/two'),
             ('http://fluiddb.fluidinfo.com/one/two/',
                 'http://fluiddb.fluidinfo.com/one/two'),
+            ('http://test.com/one/two/?referrer=http://a.b/c',
+                'http://test.com/one/two/?referrer=http://a.b/c')
+        )
+        self.normalizeTest(expected, URI, convention=u'uri-1')
+
+    def testFluidDBNormalize(self):
+        expected = (
+            ('FluidDB.fluidinfo.com', 'http://fluiddb.fluidinfo.com/'),
+            ('FluidDB.fluidinfo.com/one/two/',
+                'http://fluiddb.fluidinfo.com/one/two/'),
+            ('https://FluidDB.fluidinfo.com/one/two/',
+                'https://fluiddb.fluidinfo.com/one/two/'),
+            ('http://fluiddb.fluidinfo.com/one/two/',
+                'http://fluiddb.fluidinfo.com/one/two/'),
             ('http://test.com/one/two/?referrer=http://a.b/c',
                 'http://test.com/one/two/?referrer=http://a.b/c')
         )

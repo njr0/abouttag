@@ -43,11 +43,22 @@ class AboutTestCase(unittest.TestCase):
             self.assertEqual((input, f(input)), (input, output))
         self.assertEqual(f(u'/%s' % expected[0][0]) == output, False)
 
-    def normalizeTest(self, expected, f):
-        for (input, normalized) in expected:
-            self.assertEqual((input, f(input)), (input, normalized))
-            self.assertEqual((input, f(input, True)), (input, normalized))
-            self.assertEqual((input, f(input, False)), (input, input))
+    def normalizeTest(self, expected, f, convention=None):
+        if convention:
+            for (input, normalized) in expected:
+                self.assertEqual((input, f(input, convention=convention)),
+                                 (input, normalized))
+                self.assertEqual((input, f(input, True,
+                                           convention=convention)),
+                                 (input, normalized))
+                self.assertEqual((input, f(input, False,
+                                           convention=convention)),
+                                 (input, input))
+        else:
+            for (input, normalized) in expected:
+                self.assertEqual((input, f(input)), (input, normalized))
+                self.assertEqual((input, f(input, True)), (input, normalized))
+                self.assertEqual((input, f(input, False)), (input, input))
 
     def vectorTest(self, expected, f):
         for (args, normalized) in expected:
