@@ -44,7 +44,7 @@ print element(u'Helium')
 print'\nLOCATIONS:'
 print GEOnet(-2601490, -3577649)
 
-print '\nBOOKS (book-1 and book-u conventions):\n'
+print '\nBOOKS (book-u convention):\n'
 
 print book(u"Gödel, Escher, Bach: An Eternal Golden Braid",
            u'Douglas R. Hofstader')
