@@ -12,7 +12,7 @@
 from abouttag.fluiddb import FluidDB
 from abouttag.uri import URI
 from abouttag.database import Database
-from abouttag.objects import planet, element
+from abouttag.objects import planet, element, twitteruser
 from abouttag.location import GEOnet
 from abouttag.books import book, ubook, author
 from abouttag.music import album, track, artist, isrc_recording
@@ -81,5 +81,9 @@ print isrc_recording(u'US-PR3-73-00012')
 print '\nFILM (film-u convention):\n'
 print film(u"Citizen Kane", u'1941')
 print movie(u"L'Âge d'Or", u'1930')
+print
+
+print '\nTWITTER users:\n'
+print twitteruser(u"terrycojones")
 
 print

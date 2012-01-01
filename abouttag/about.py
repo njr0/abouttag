@@ -28,8 +28,8 @@ def generalentity(name, convention, conventions, normalize=True,
     return u'%s%s%s' % (prefix, name, suffix)
 
 
-def simple(entity):
-    conventions = ('%s-1' % entity,)
+def simple(entity, cname=None):
+    conventions = ('%s-1' % (cname if cname else entity),)
 
     def f(name, convention='%s-1' % entity, normalize=True):
         return generalentity(name, convention, conventions,

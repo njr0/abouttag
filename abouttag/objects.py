@@ -15,7 +15,15 @@ from abouttag import about
 
 planet = about.simple(u'planet')
 element = about.simple(u'element')
-twitteruser = about.simple(u'twitter.com:uid')
+twitteruser1 = about.simple(u'twitter.com:uid', 'twitteruser')
+
+def twitteruser(name, normalize=True, convention=u'twitteruser-2'):
+    assert convention in (u'twitteruser-1', u'twitteruser-2')
+    if convention == u'twitteruser-1':
+        return twitteruser1(name, convention, normalize)
+    else:
+        n = name.lower().strip() if normalize else name
+        return n if n.startswith(u'@') else u'@%s' % n
 
 
 class TestObjects(about.AboutTestCase):
@@ -41,10 +49,17 @@ class TestObjects(about.AboutTestCase):
                          u'element: copper ')
 
     def testTwitterUser(self):
-        self.assertEqual(twitteruser(u'17895882'), u'twitter.com:uid:17895882')
-        self.assertEqual(twitteruser(u' 17895882 '),
+        self.assertEqual(twitteruser(u'17895882', convention='twitteruser-1'),
+                         u'twitter.com:uid:17895882')
+        self.assertEqual(twitteruser(u' 17895882 ',
+                                     convention='twitteruser-1'),
                          u'twitter.com:uid:17895882')
 
+        self.assertEqual(twitteruser(u'terrycojones'), u'@terrycojones')
+        self.assertEqual(twitteruser(u' @TERRYCOJONES '), u'@terrycojones')
+                         
+
         # No normalization:
-        self.assertEqual(twitteruser(u' 42983 ', normalize=False),
-                         u'twitter.com:uid: 42983 ')
+        self.assertEqual(twitteruser(u' @TERRYCOJONES ', False,
+                                     'twitteruser-2'),
+                         u'@ @TERRYCOJONES ')

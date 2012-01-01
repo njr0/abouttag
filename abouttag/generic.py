@@ -13,7 +13,7 @@
 from abouttag.fluiddb import FluidDB
 from abouttag.uri import URI
 from abouttag.database import Database
-from abouttag.objects import planet, element
+from abouttag.objects import planet, element, twitteruser
 from abouttag.location import GEOnet
 from abouttag.books import book, ubook, author
 from abouttag.music import album, track, artist, isrc_recording
@@ -43,6 +43,7 @@ def abouttag(*args):
         'track': track,
         'artist': artist,
         'isrc-recording': isrc_recording,
+        'twitter-user': twitteruser,
     }
              
     if len(args) == 0:
