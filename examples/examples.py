@@ -48,23 +48,14 @@ print '\nBOOKS (book-1 and book-u conventions):\n'
 
 print book(u"Gödel, Escher, Bach: An Eternal Golden Braid",
            u'Douglas R. Hofstader')
-print ubook(u"Gödel, Escher, Bach: An Eternal Golden Braid",
-            u'Douglas R. Hofstader')
 print
 print book(u"One Hundred Years of Solitude", u'Gabriel García Márquez')
-print ubook(u"One Hundred Years of Solitude", u'Gabriel García Márquez')
-print
 print book(u'The Feynman Lectures on Physics',
            u'Richard P. Feynman', u'Robert B. Leighton',
            u'Matthew Sands')
-print ubook(u'The Feynman Lectures on Physics',
-            u'Richard P. Feynman', u'Robert B. Leighton',
-            u'Matthew Sands')
 print
 print book(u'The Oxford English Dictionary: second edition, volume 3',
            u'John Simpson', u'Edmund Weiner')
-print ubook(u'The Oxford English Dictionary: second edition, volume 3',
-            u'John Simpson', u'Edmund Weiner')
 print
 
 print '\nAUTHORS:'

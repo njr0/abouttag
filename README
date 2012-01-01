@@ -1,8 +1,8 @@
 This package provides functions for generating about tags for
-FluidDB following various conventions.
+Fluidinfo following various conventions.
 
-FluidDB is a hosted, online database based on the notion of tagging.
-For more information on FluidDB, visit http://fluiddb.fluidinfo.com.
+Fluidinfo is a hosted, online database based on the notion of tagging.
+For more information on FluidDB, visit http://fluidinfo.com.
 
 For more information on the ideas that motivated this module,
 see posts at http://abouttag.blogspot.com.   A good place to
@@ -10,14 +10,13 @@ start is
 
 http://abouttag.blogspot.com/2010/03/about-tag-conventions-in-fluiddb.html
 
-Version 0.6: Important change to URL convention.
-             Switched from 'uri-1' to 'uri-2' convention,
-             which uses the urlnorm library to normalize URIs.
-	     This means
-		1. There is now a dependency on urlnorm,
-		   available from http://pypi.python.org/pypi/urlnorm.
-		2. URIs are now, by default, standardized to INCLUDE
-		   a trailing slash (when they represent directories etc.)
+Version 1.0: Full release.
+             Added twitteruser-2 convention and made that the default.
+	     Renamed the book normalizers so that
+		book --> abook
+		ubook --> book
+             thus making book-u the default for books.
 
 Nicholas J. Radcliffe
-14th December 2011
+1st January 2012
+

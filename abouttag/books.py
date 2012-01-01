@@ -50,12 +50,15 @@ normalize_ubook = normalize_work(u'book', preserveAlpha=True)
 
 
 def book(title, *authors, **kwargs):
-    """Usage:
-        from abouttag.books import book
+    """This uses the book-u convention which is the same as book-1
+except that accents are preserved.
+
+Usage:
+        from abouttag.books import ubook
 
         print book(u"Gödel, Escher, Bach: An Eternal Golden Braid",
                    u'Douglas R. Hofstader')
-        book:godel escher bach an eternal golden braid (douglas r hofstader)
+        book:gödel escher bach an eternal golden braid (douglas r hofstader)
 
 
         print book(u'The Feynman Lectures on Physics',
@@ -70,37 +73,38 @@ def book(title, *authors, **kwargs):
         book:the oxford english dictionary second edition volume 3 (john simpson; edmund weiner)
     """
     if 'convention' in kwargs:
-        assert kwargs['convention'].lower() == u'book-1'
+        assert kwargs['convention'].lower() == u'book-u'
 
-    return normalize_book(title, *authors, **kwargs)
-
-
-def ubook(title, *authors, **kwargs):
-    """This uses the book-u convention which is the same as book-1
-except that all letters
-Usage:
-        from abouttag.books import ubook
-
-        print ubook(u"Gödel, Escher, Bach: An Eternal Golden Braid",
-                    u'Douglas R. Hofstader')
-        book:gödel escher bach an eternal golden braid (douglas r hofstader)
+    return normalize_ubook(title, *authors, **kwargs)
 
 
-        print ubook(u'The Feynman Lectures on Physics',
+ubook = book
+
+
+def abook(title, *authors, **kwargs):
+    """Usage:
+        from abouttag.books import abook
+
+        print abook(u"Gödel, Escher, Bach: An Eternal Golden Braid",
+                   u'Douglas R. Hofstader')
+        book:godel escher bach an eternal golden braid (douglas r hofstader)
+
+
+        print abook(u'The Feynman Lectures on Physics',
                     u'Richard P. Feynman', u'Robert B. Leighton',
                     u'Matthew Sands')
         book:the feynman lectures on physics (richard p feynman; robert b leighton; matthew sands)
 
 
-        print ubook(u'The Oxford English Dictionary: second edition, volume 3',
-                   u'John Simpson', u'Edmund Weiner')
+        print abook(u'The Oxford English Dictionary: second edition, volume 3',
+                    u'John Simpson', u'Edmund Weiner')
 
         book:the oxford english dictionary second edition volume 3 (john simpson; edmund weiner)
     """
     if 'convention' in kwargs:
-        assert kwargs['convention'].lower() == u'book-u'
+        assert kwargs['convention'].lower() == u'book-1'
 
-    return normalize_ubook(title, *authors, **kwargs)
+    return normalize_book(title, *authors, **kwargs)
 
 
 def is_all_upper(s):
@@ -143,6 +147,7 @@ def move_article(title):
         elif L.endswith(u',' + a):
             return u'%s %s' % (title[-len(a):], title[:-(len(a) + 1)])
     return title
+
 
 def move_surname_to_end(author):
     """Given a name such as "Salinger, J.D.", this functions transforms
@@ -254,7 +259,7 @@ class TestBooks(about.AboutTestCase):
         for (input, output) in expected:
             title, author = input[0], input[1:]
             self.assertEqual((input, output),
-                             (input, book(title, *author)))
+                             (input, abook(title, *author)))
 
     def testFluidDBNormalizeU(self):
         expected = (
@@ -295,6 +300,8 @@ class TestBooks(about.AboutTestCase):
         )
         for (input, output) in expected:
             title, author = input[0], input[1:]
+            self.assertEqual((input, output),
+                             (input, book(title, *author)))
             self.assertEqual((input, output),
                              (input, ubook(title, *author)))
 
