@@ -2,7 +2,7 @@
 from distutils.core import setup
 
 setup(name='abouttag',
-      version='1.2',
+      version='1.2.1',
       description='Normalizes about tags for Fluidinfo',
       author='Nicholas J. Radcliffe',
       author_email='njr@StochasticSolutions.com',
@@ -47,8 +47,8 @@ Examples of usage are provided in the examples directory.
 Some simple examples are:
 
     from abouttag.books import book
-    from abouttag.music import album
-    from abouttag.film import film
+    from abouttag.music import album, artist, track
+    from abouttag.film import film, movie
 
     print book(u"One Hundred Years of Solitude", u'Gabriel García Márquez')
     print book(u'The Feynman Lectures on Physics',
@@ -64,7 +64,6 @@ Some simple examples are:
 INSTALLATION
 
     pip install -U abouttag
-
 
 DEPENDENCIES
 
