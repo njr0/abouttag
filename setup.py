@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 from distutils.core import setup
 
 setup(name='abouttag',
-      version='1.1',
+      version='1.2',
       description='Normalizes about tags for Fluidinfo',
       author='Nicholas J. Radcliffe',
       author_email='njr@StochasticSolutions.com',
@@ -40,59 +41,34 @@ start is
 
 http://abouttag.blogspot.com/2010/03/about-tag-conventions-in-fluiddb.html
 
-Examples
---------
-::
+EXAMPLE
 
-    from abouttag.books import book, ubook, author
-    from abouttag.music import album, track, artist, isrc_recording
-    from abouttag.film import film, movie
+Examples of usage are provided in the examples directory.
+Some simple examples are:
 
-    print '\nBOOKS (book-u convention):\n'
+    from abouttag.books import book
+    from abouttag.music import album
+    from abouttag.film import film
 
-    print book(u"Gödel, Escher, Bach: An Eternal Golden Braid",
-               u'Douglas R. Hofstader')
-    print
     print book(u"One Hundred Years of Solitude", u'Gabriel García Márquez')
     print book(u'The Feynman Lectures on Physics',
                u'Richard P. Feynman', u'Robert B. Leighton',
                u'Matthew Sands')
-    print
-    print book(u'The Oxford English Dictionary: second edition, volume 3',
-               u'John Simpson', u'Edmund Weiner')
-    print
-
-    print '\nAUTHORS:'
-
-    print author(u'Gabriel García Márquez', 1927, 3, 6)
-    print author(u"Douglas R. Hofstadter", 1945, 2, 15)
-
-    print '\nMUSIC (album-u, track-u, artist-u and isrc-1 conventions):\n'
     print track(u'Bamboulé', u'Bensusan and Malherbe')
     print album(u"Solilaï", u'Pierre Bensusan')
     print artist(u"Crosby, Stills, Nash & Young")
-    print isrc_recording(u'US-PR3-73-00012')
-
-    print '\nFILM (film-u convention):\n'
     print film(u"Citizen Kane", u'1941')
     print movie(u"L'Âge d'Or", u'1930')
-    print
 
 
-Installation
-------------
-
-::
+INSTALLATION
 
     pip install -U abouttag
 
 
-Dependencies
-------------
+DEPENDENCIES
 
-`urlnorm <http://pypi.python.org/pypi/urlnorm>`_
-
-
-      '''
+    urlnorm
+'''
       
      )
