@@ -260,6 +260,15 @@ class TestBooks(about.AboutTestCase):
             title, author = input[0], input[1:]
             self.assertEqual((input, output),
                              (input, abook(title, *author)))
+        self.assertEqual(abook(u'Kes', u'Ken Kesey', convention=u'book-1'),
+                         u'book:kes (ken kesey)')
+        self.assertEqual(abook(u'Kes', u'Ken Kesey', convention=u'book-1',
+                               normalize=False),
+                         u'book:Kes (Ken Kesey)')
+        self.assertEqual(book(u'Kes', u'Ken Kesey', convention=u'book-u'),
+                         u'book:kes (ken kesey)')
+        self.assertRaises(AssertionError, book ,u'Kes', u'Ken Kesey',
+                                   convention=u'book-1')
 
     def testFluidDBNormalizeU(self):
         expected = (
@@ -322,12 +331,16 @@ class TestBooks(about.AboutTestCase):
             [name, y, m, d] = input
             self.assertEqual((input, output),
                              (input, author(name, y, m, d)))
+        self.assertEqual(author('D. R. H.', 1, 2, 3, normalize=False,
+                                convention=u'author-1'),
+                         'author:D. R. H. (0001-02-03)')
 
 
     def testMoveSurname1(self):
         inputs = [
             u'J. D. Salinger',
             u'J.D.Salinger',
+            u'J D Salinger',
             u'J.D. Salinger',
             u'JD Salinger',
             u'Salinger,J.D.',

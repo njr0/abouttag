@@ -20,7 +20,8 @@ from abouttag.books import *
 from abouttag.music import *
 from abouttag.film import *
 
-unittest.main()
+if __name__ == '__main__':
+    unittest.main()
 
 
 
