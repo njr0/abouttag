@@ -1,4 +1,4 @@
-        # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """
     abouttag.nacolike
@@ -57,7 +57,7 @@ U_TRANSLATE = {
 
 def remove_accents(u):
     return ''.join(c for c in unicodedata.normalize('NFD', u)
-                            if unicodedata.category(c) != 'Mn') if u else u
+                     if unicodedata.category(c) != 'Mn') if u else u
 
 
 def normalize_part(u, preserveAlpha=False):
