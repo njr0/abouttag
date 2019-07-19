@@ -5,7 +5,7 @@
 
     NACO-like normalization.
 
-    Copyright 2010 AUTHORS (see AUTHORS file)
+    Copyright 2010-2019 AUTHORS (see AUTHORS file)
     License: MIT, see LICENSE for more information
 """
 
@@ -40,18 +40,19 @@ TRANSLATE = {
         u'β': u'b',
         u'γ': u'y',
         u'♭': u'b',
-        u'♯': u'#',  # careful: sharp not hash on left!
+        u'♯': u'#',   # careful: sharp not hash on left!
         u'–': u'-',   # en-dash
-        u'—': u'-',   # em-dash
+        u'—': u'-',  # em-dash
         u"'": u'',    # apostrophe
 }
 
 U_TRANSLATE = {
         u'♭': u'b',
-        u'♯': u'#',  # careful: sharp not hash on left!
+        u'♯': u'#',   # careful: sharp not hash on left!
         u'–': u'-',   # en-dash
-        u'—': u'-',   # em-dash
+        u'—': u'-',  # em-dash
         u"'": u'',    # apostrophe
+        u"`": u'',    # left quote
 }
 
 
@@ -78,13 +79,14 @@ def normalize_part(u, preserveAlpha=False):
 
 
 def normalize(u, preserveFirstComma=False, preserveAlpha=False):
-    """Normalize a string using NACO normalization rules.
-       Input is (must be) unicode string.
+    """
+    Normalize a string using NACO normalization rules.
+    Input is (must be) unicode string.
 
-       Rules taken from NACO Normalization
-       http://lcweb.loc.gov/catdir/pcc/naco/normrule.html
-       Except that accents are mapped to nearest equivalent ASCII characters
-       or character sequences, and "subfield delimiters" are ignored.
+    Rules taken from NACO Normalization
+    http://lcweb.loc.gov/catdir/pcc/naco/normrule.html
+    Except that accents are mapped to nearest equivalent ASCII characters
+    or character sequences, and "subfield delimiters" are ignored.
     """
     if preserveFirstComma and u',' in u:
         cPos = u.find(u',')
