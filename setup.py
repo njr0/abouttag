@@ -2,7 +2,7 @@
 from distutils.core import setup
 
 setup(name='abouttag',
-      version='1.3.0',
+      version='1.3.1',
       description='Normalizes about tags for Fluidinfo',
       author='Nicholas J. Radcliffe',
       author_email='njr@StochasticSolutions.com',
@@ -19,7 +19,7 @@ setup(name='abouttag',
       ],
       classifiers = [
           'Programming Language :: Python',
-          'Programming Language :: Python :: 2',
+          'Programming Language :: Python :: 3',
           'Development Status :: 5 - Production/Stable',
           'License :: OSI Approved :: MIT License',
           'Environment :: Other Environment',
@@ -28,6 +28,7 @@ setup(name='abouttag',
           'Topic :: Internet',
       ],
       install_requires = ['urlnorm>=1.1.2'],
+      long_description_content_type="text/markdown",
       long_description = '''\
 This package provides functions for generating about tags for
 Fluidinfo following various conventions.
@@ -69,5 +70,4 @@ DEPENDENCIES
 
     urlnorm
 '''
-      
      )
